@@ -129,13 +129,11 @@ public class NewViewHome {
 		}
 	}
 	
-	public List<NewView> getList(NewView instance) {
+	public List<NewView> getList() {
 		log.debug("finding NewView instance by example");
 		try {
 			s = HibernateUtil.getSessionFactory().openSession();
-			List<NewView> results = (List<NewView>) s.createCriteria("com.ainosoft.demo.dao.NewView").add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
+			List<NewView> results = (List<NewView>) s.createCriteria("com.ainosoft.demo.dao.NewView").list();
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);

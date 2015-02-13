@@ -27,7 +27,7 @@ public class AddressHomeTest {
 		Address ad1=ah.persist(ad);
 		ah.delete(ad1);
 		List<Address> list= ah.getList();
-		list.contains(ad1);
+		Assert.assertFalse(list.contains(ad1));
 		
 	}
 

@@ -9,7 +9,7 @@ import com.ainosoft.demo.pojo.NewViewId;
 public class NewViewHomeTest {
 
 	
-	@Test
+//	@Test
 	public void testPersist() {
 		NewViewHome nvh=new NewViewHome();
 		NewViewId nvi=new NewViewId(1,"history",1,"MH","India","pune");
@@ -19,7 +19,7 @@ public class NewViewHomeTest {
 	}
 
 
-	@Test
+//	@Test
 	public void testDelete() {
 		NewViewHome nvh=new NewViewHome();
 		NewViewId nvi=new NewViewId(2,"history",2,"MH","India","pune");
