@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 13 Feb, 2015 11:07:05 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.ainosoft.demo.pojo.Address" table="Address" catalog="viewdb">
+        <id name="addressId" type="int">
+            <column name="address_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="state" type="string">
+            <column name="state" length="45" />
+        </property>
+        <property name="country" type="string">
+            <column name="country" length="45" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>
