@@ -2,6 +2,7 @@ package com.ainosoft.demo.dao;
 
 // Generated 13 Feb, 2015 11:15:58 AM by Hibernate Tools 3.4.0.CR1
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.InitialContext;
@@ -9,6 +10,7 @@ import javax.naming.InitialContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -19,6 +21,7 @@ import static org.hibernate.criterion.Example.create;
 
 /**
  * Home object for domain model class Addressbook.
+ * 
  * @see com.ainosoft.demo.dao.Addressbook
  * @author Hibernate Tools
  */
@@ -27,12 +30,11 @@ public class AddressbookHome {
 	private static final Log log = LogFactory.getLog(AddressbookHome.class);
 
 	private final SessionFactory sessionFactory = getSessionFactory();
-    private Session s;
+	private Session s;
 
-    protected SessionFactory getSessionFactory() {
+	protected SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-
 
 	public Addressbook persist(Addressbook transientInstance) {
 		log.debug("persisting Addressbook instance");
@@ -75,7 +77,7 @@ public class AddressbookHome {
 	public void delete(Addressbook persistentInstance) {
 		log.debug("deleting Addressbook instance");
 		try {
-			s= HibernateUtil.getSessionFactory().openSession();
+			s = HibernateUtil.getSessionFactory().openSession();
 			s.beginTransaction();
 			s.delete(persistentInstance);
 			s.getTransaction().commit();
@@ -121,28 +123,41 @@ public class AddressbookHome {
 	public List<Addressbook> findByExample(Addressbook instance) {
 		log.debug("finding Addressbook instance by example");
 		try {
-			s=HibernateUtil.getSessionFactory().openSession();
+			s = HibernateUtil.getSessionFactory().openSession();
 			s.beginTransaction();
-			List<Addressbook> results = (List<Addressbook>) s.createCriteria("com.ainosoft.demo.dao.Addressbook").add(create(instance)).list();
+			List<Addressbook> results = (List<Addressbook>) s
+					.createCriteria("com.ainosoft.demo.dao.Addressbook")
+					.add(create(instance)).list();
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;
 		}
 	}
-	
 
 	public List<Addressbook> getList() {
 		log.debug("finding Addressbook instance by example");
 		try {
-			s=HibernateUtil.getSessionFactory().openSession();
-			System.out.println("done");
-			List<Addressbook> results = (List<Addressbook>) s.createCriteria("com.ainosoft.demo.dao.Addressbook").list();
-			System.out.println("done");
-			return results;
+			List<Addressbook> booklist = new ArrayList<Addressbook>();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+
+			Query query = session.createQuery("from Addressbook");
+			List<?> list = query.list();
+			for (Object obj : list) {
+				if (obj instanceof Addressbook) {
+					Addressbook ab = (Addressbook) obj;
+					booklist.add(ab);
+				}
+			}
+			session.flush();
+			session.close();
+			return booklist;
+
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;
 		}
 	}
+
 }

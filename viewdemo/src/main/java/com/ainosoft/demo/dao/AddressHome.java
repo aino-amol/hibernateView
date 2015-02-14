@@ -2,15 +2,18 @@ package com.ainosoft.demo.dao;
 
 // Generated 13 Feb, 2015 11:15:58 AM by Hibernate Tools 3.4.0.CR1
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.ainosoft.demo.pojo.Address;
+import com.ainosoft.demo.pojo.Addressbook;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -128,14 +131,24 @@ public class AddressHome {
 	}
 	
 	public List<Address> getList() {
-		log.debug("finding Address instance by example");
+		log.debug("finding Addressbook instance by example");
 		try {
-			s= HibernateUtil.getSessionFactory().openSession();
-			s.beginTransaction();
-			List<Address> results = (List<Address>) s.createCriteria("com.ainosoft.demo.dao.Address").list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
+			List<Address> addresslist = new ArrayList<Address>();
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+
+			Query query = session.createQuery("from Address");
+			List<?> list = query.list();
+			for (Object obj : list) {
+				if (obj instanceof Address) {
+					Address ab = (Address) obj;
+					addresslist.add(ab);
+				}
+			}
+			session.flush();
+			session.close();
+			return addresslist;
+
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
 			throw re;

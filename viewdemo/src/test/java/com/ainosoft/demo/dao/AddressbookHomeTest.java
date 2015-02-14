@@ -27,7 +27,7 @@ public class AddressbookHomeTest {
 		AddressbookHome abh=new AddressbookHome();
 		Addressbook ab=new Addressbook("phonebook");
 		Addressbook ab1=abh.persist(ab);
-		abh.delete(ab);
+		abh.delete(ab1);
 		List<Addressbook> list=	abh.getList();
 		Assert.assertFalse(list.contains(ab1));
 	}
